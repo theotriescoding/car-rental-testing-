@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Car Rental</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🚗 Car Rental - Admin Panel</h1>
+        <nav>
+            <a href="index.html">Αρχική</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="#" class="logout-link">Αποσύνδεση</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Πίνακας Διαχειριστή</h2>
+        
+        <!-- Add Car Form -->
+        <div class="admin-section">
+            <h3>Προσθήκη Νέου Αυτοκινήτου</h3>
+            <form id="addCarForm">
+                <div class="form-grid">
+                    <div>
+                        <label for="carBrand">Μάρκα:</label>
+                        <input type="text" id="carBrand" required>
+                    </div>
+                    <div>
+                        <label for="carModel">Μοντέλο:</label>
+                        <input type="text" id="carModel" required>
+                    </div>
+                    <div>
+                        <label for="carCategory">Κατηγορία:</label>
+                        <select id="carCategory" required>
+                            <option value="">Επίλεξε κατηγορία</option>
+                            <option value="Οικονομικό">Οικονομικό</option>
+                            <option value="Μεσαίο">Μεσαίο</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Πολυτελές">Πολυτελές</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="carPrice">Τιμή/μέρα (€):</label>
+                        <input type="number" id="carPrice" min="1" step="0.01" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="carDescription">Περιγραφή:</label>
+                    <textarea id="carDescription" rows="3"></textarea>
+                </div>
+                <button type="submit">Προσθήκη Αυτοκινήτου</button>
+            </form>
+        </div>
+        
+        <!-- Cars Management -->
+        <div class="admin-section">
+            <h3>Διαχείριση Αυτοκινήτων</h3>
+            <div class="car-list" id="adminCarsList">
+                <p>Φόρτωση αυτοκινήτων...</p>
+            </div>
+        </div>
+        
+        <!-- Bookings Management -->
+        <div class="admin-section">
+            <h3>Διαχείριση Κρατήσεων</h3>
+            <div id="adminBookingsList">
+                <p>Φόρτωση κρατήσεων...</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Car Rental</p>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script>
+        // Override displayCars for admin view
+        function displayCars(cars) {
+            const carList = document.getElementById('adminCarsList');
+            if (!carList) return;
+            
+            carList.innerHTML = '';
+            
+            cars.forEach(car => {
+                const carElement = document.createElement('div');
+                carElement.className = 'car admin-car';
+                carElement.innerHTML = `
+                    <div class="car-info">
+                        <h3>${car.brand} ${car.model}</h3>
+                        <p>Κατηγορία: ${car.category}</p>
+                        <p>Τιμή: ${car.price_per_day}€/μέρα</p>
+                        <p>Διαθέσιμο: ${car.available ? 'Ναι' : 'Όχι'}</p>
+                        <p>${car.description || ''}</p>
+                    </div>
+                    <div class="car-actions">
+                        <button class="btn edit-btn" onclick="editCar(${car.id})">Επεξεργασία</button>
+                        <button class="btn delete-btn" onclick="deleteCar(${car.id})">Διαγραφή</button>
+                    </div>
+                `;
+                carList.appendChild(carElement);
+            });
+        }
+        
+        // Edit car function (simplified - would open a modal in full implementation)
+        function editCar(carId) {
+            alert('Η λειτουργία επεξεργασίας θα υλοποιηθεί σε επόμενη έκδοση.');
+        }
+    </script>
+</body>
+</html>

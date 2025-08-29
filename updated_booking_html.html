@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Κράτηση Αυτοκινήτου</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🚗 Car Rental</h1>
+        <nav>
+            <a href="index.html">Αρχική</a>
+            <a href="cars.html">Αυτοκίνητα</a>
+            <a href="bookings.html">Οι Κρατήσεις μου</a>
+            <a href="#" class="logout-link">Αποσύνδεση</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Κράτηση Αυτοκινήτου</h2>
+        
+        <div id="selectedCarInfo">
+            <p>Φόρτωση πληροφοριών αυτοκινήτου...</p>
+        </div>
+        
+        <form id="bookingForm">
+            <label for="startDate">Ημερομηνία Έναρξης:</label>
+            <input type="date" id="startDate" required><br><br>
+            
+            <label for="endDate">Ημερομηνία Λήξης:</label>
+            <input type="date" id="endDate" required><br><br>
+            
+            <div id="priceCalculation" style="margin: 20px 0; padding: 10px; background: #f9f9f9; border-radius: 5px;">
+                <p id="daysCount">Επίλεξε ημερομηνίες για υπολογισμό κόστους</p>
+                <p id="totalCost" style="font-weight: bold; font-size: 1.2em;"></p>
+            </div>
+            
+            <button type="submit">Ολοκλήρωση Κράτησης</button>
+            <a href="cars.html" class="btn" style="margin-left: 10px;">Πίσω στα Αυτοκίνητα</a>
+        </form>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Car Rental</p>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script>
+        // Display selected car info and calculate price
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedCar = JSON.parse(sessionStorage.getItem('selectedCar') || '{}');
+            
+            if (selectedCar.id) {
+                document.getElementById('selectedCarInfo').innerHTML = `
+                    <div class="selected-car">
+                        <h3>Επιλεγμένο Αυτοκίνητο: ${selectedCar.name}</h3>
+                        <p>Τιμή: ${selectedCar.pricePerDay}€/μέρα</p>
+                    </div>
+                `;
+                
+                // Add date change listeners for price calculation
+                const startDateInput = document.getElementById('startDate');
+                const endDateInput = document.getElementById('endDate');
+                
+                function calculatePrice() {
+                    const startDate = startDateInput.value;
+                    const endDate = endDateInput.value;
+                    
+                    if (startDate && endDate) {
+                        const start = new Date(startDate);
+                        const end = new Date(endDate);
+                        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                        
+                        if (days > 0) {
+                            const totalCost = days * selectedCar.pricePerDay;
+                            document.getElementById('daysCount').textContent = `Διάρκεια: ${days} μέρες`;
+                            document.getElementById('totalCost').textContent = `Συνολικό κόστος: ${totalCost}€`;
+                        } else {
+                            document.getElementById('daysCount').textContent = 'Μη έγκυρες ημερομηνίες';
+                            document.getElementById('totalCost').textContent = '';
+                        }
+                    }
+                }
+                
+                startDateInput.addEventListener('change', calculatePrice);
+                endDateInput.addEventListener('change', calculatePrice);
+                
+                // Set minimum date to today
+                const today = new Date().toISOString().split('T')[0];
+                startDateInput.min = today;
+                endDateInput.min = today;
+                
+            } else {
+                document.getElementById('selectedCarInfo').innerHTML = `
+                    <div class="error">
+                        <p>Δεν έχει επιλεγεί αυτοκίνητο. <a href="cars.html">Επίλεξε αυτοκίνητο</a></p>
+                    </div>
+                `;
+                document.getElementById('bookingForm').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

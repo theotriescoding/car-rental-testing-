@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Εγγραφή - Car Rental</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🚗 Car Rental</h1>
+        <nav>
+            <a href="index.html">Αρχική</a>
+            <a href="cars.html">Αυτοκίνητα</a>
+            <a href="login.html">Σύνδεση</a>
+            <a href="register.html">Εγγραφή</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Εγγραφή Χρήστη</h2>
+        <form id="registerForm">
+            <label for="regName">Όνομα:</label>
+            <input type="text" id="regName" required><br><br>
+            
+            <label for="regEmail">Email:</label>
+            <input type="email" id="regEmail" required><br><br>
+            
+            <label for="regPassword">Κωδικός:</label>
+            <input type="password" id="regPassword" required minlength="6"><br><br>
+            
+            <button type="submit">Εγγραφή</button>
+        </form>
+        
+        <p>Έχεις ήδη λογαριασμό; <a href="login.html">Συνδέσου εδώ</a></p>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Car Rental</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
